@@ -1,149 +1,320 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta name="google-adsense-account" content="ca-pub-6059763208706716">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-adsense-account" content="ca-pub-6059763208706716">
-  <title>leyesophy</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6059763208706716" crossorigin="anonymous"></script>
+  <title>クソアドバイザー AI</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #f5f5f0;
-      --fg: #111;
-      --muted: #888;
-      --accent: #111;
-      --border: #ddd;
-    }
-
     body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       min-height: 100vh;
+      background: #f5f5f3;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: #111;
     }
 
-    header {
-      padding: 48px 40px 0;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 24px;
+    .container {
+      width: 100%;
+      max-width: 560px;
     }
 
-    header h1 {
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.15em;
+    .header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: #999;
       text-transform: uppercase;
-      color: var(--muted);
+      margin-bottom: 8px;
     }
 
-    main {
-      flex: 1;
-      padding: 64px 40px;
-      max-width: 640px;
-    }
-
-    .tagline {
-      font-size: 32px;
+    h1 {
+      font-size: 28px;
       font-weight: 700;
-      line-height: 1.2;
       letter-spacing: -0.02em;
+    }
+
+    .header-sub {
+      color: #888;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .field {
       margin-bottom: 16px;
     }
 
-    .desc {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 48px;
+    label {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
     }
 
-    .app-card {
-      border: 1px solid var(--border);
-      background: #fff;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .app-card-label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .app-card-title {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .app-card-desc {
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
       font-size: 14px;
-      color: var(--muted);
+      background: #fff;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    textarea:focus {
+      border-color: #aaa;
+    }
+
+    textarea {
+      resize: vertical;
       line-height: 1.6;
     }
 
-    .app-card-link {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 12px 24px;
-      background: var(--accent);
+    #submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: #111;
       color: #fff;
-      text-decoration: none;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    #submit-btn:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    #submit-btn:not(:disabled):hover {
+      background: #333;
+    }
+
+    .error-box {
+      padding: 10px 14px;
+      background: #fff0f0;
+      border: 1px solid #fcc;
+      border-radius: 6px;
+      color: #c00;
       font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .result-box {
+      margin-top: 28px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      display: none;
+    }
+
+    .result-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: #bbb;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    #advice-text {
+      font-size: 16px;
+      line-height: 1.75;
+      color: #111;
+    }
+
+    .share-wrap {
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    #share-btn {
+      display: inline-block;
+      padding: 8px 18px;
+      background: #000;
+      color: #fff;
+      border-radius: 20px;
+      font-size: 12px;
+      text-decoration: none;
       letter-spacing: 0.05em;
-      font-weight: 500;
-      width: fit-content;
       transition: opacity 0.15s;
     }
 
-    .app-card-link:hover {
+    #share-btn:hover {
       opacity: 0.75;
     }
 
-    footer {
-      padding: 24px 40px;
-      border-top: 1px solid var(--border);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 480px) {
-      header, main, footer { padding-left: 20px; padding-right: 20px; }
-      .tagline { font-size: 24px; }
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 11px;
+      margin-top: 40px;
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6059763208706716" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <h1>leyesophy</h1>
-  </header>
+  <div class="container">
 
-  <main>
-    <p class="tagline">最悪のアドバイスを、<br>真顔でお届けします。</p>
-    <p class="desc">AIが生成する、役に立たないアドバイスのWebサービスです。</p>
-
-    <div class="app-card">
-      <span class="app-card-label">App</span>
-      <span class="app-card-title">クソアドバイザー AI</span>
-      <p class="app-card-desc">
-        悩みを入力すると、考え得る中で最悪のアドバイスが返ってきます。
-        笑えるネタとしてSNSでシェアどうぞ。
-      </p>
-      <a class="app-card-link" href="https://leyesophy.github.io/kuso-adviser/" target="_blank">
-        アドバイスをもらう →
-      </a>
+    <div class="header">
+      <div class="header-label">Professional Advisory Service</div>
+      <h1>クソアドバイザー AI</h1>
+      <p class="header-sub">あなたの悩みに、最高に役立たないアドバイスをお届けします。</p>
     </div>
-  </main>
 
-  <footer>
-    &copy; 2026 leyesophy
-  </footer>
+    <div class="field">
+      <label for="worry-input">あなたの悩み</label>
+      <textarea id="worry-input" rows="4" placeholder="例：仕事のやる気が出ません"></textarea>
+    </div>
+
+    <div class="error-box" id="error-box"></div>
+
+    <button id="submit-btn" type="button">アドバイスをもらう</button>
+
+    <div class="result-box" id="result-box">
+      <div class="result-label">Advice</div>
+      <p id="advice-text"></p>
+      <div class="share-wrap">
+        <a id="share-btn" href="#" target="_blank" rel="noopener noreferrer">𝕏 でシェア</a>
+      </div>
+    </div>
+
+    <p class="footer">このアドバイスは一切参考にしないでください。</p>
+
+  </div>
+
+  <script>
+    const SYSTEM_PROMPT = `あなたは「クソアドバイザー」です。ユーザーの悩みに対して、丁寧なですます調・真顔・断言口調で、2～3文のアドバイスを返してください。1～2文目で行動を指示し、最後の1文で結論・判定・責任転嫁・投げやりな締めのいずれかで終わること。
+
+狙うトーン：一見まともで納得しかけるが、よく考えるとおかしい。読んだ瞬間は「そうかも」と思わせてから裏切る。気分・感情系の悩みに対しても、共感や励ましは一切不要。同じトーンで的外れに断言すること。
+
+以下は良いアドバイスの例です。このトーンを参考にしてください。
+
+例1：今の会社のロゴを毎朝30秒眺めてください。嫌悪感が薄れたら残留、増したら転職のサインです。
+例2：毎日、退職届を完成させてから仕事に向かってください。提出する気が起きなければ、まだ働くべきです。
+例3：NISAが上がらないと感じるのは、NISA口座を毎日見ているからです。今すぐアプリを削除してください。
+例4：彼女がほしいのであれば、まずご自身の部屋を完璧に整えてください。そこが完璧になれば、もう彼女は必要ありません。
+例5：姑がうざいと感じた時には、まずあなたの顔を鏡で見てください。その顔で不満を言うのは、無謀です。
+
+禁止事項：マークダウン記法（**や#など）、フランクな口調・感嘆符・キャラクター的な話し方、数字の多用、共感・励まし・ポジティブな言い換え、genuineに役立つアドバイス、過度な暴力描写、性的内容、差別的表現、公序良俗に反する内容。
+
+アドバイスのみを返し、前置きや説明は一切不要です。`;
+
+    const worryInput  = document.getElementById('worry-input');
+    const submitBtn   = document.getElementById('submit-btn');
+    const errorBox    = document.getElementById('error-box');
+    const resultBox   = document.getElementById('result-box');
+    const adviceText  = document.getElementById('advice-text');
+    const shareBtn    = document.getElementById('share-btn');
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+    }
+
+    function hideError() {
+      errorBox.style.display = 'none';
+    }
+
+    const DAILY_LIMIT = 20;
+
+    function getTodayKey() {
+      return 'kuso_count_' + new Date().toISOString().slice(0, 10);
+    }
+
+    function getCount() {
+      return parseInt(localStorage.getItem(getTodayKey()) || '0', 10);
+    }
+
+    function incrementCount() {
+      const key = getTodayKey();
+      localStorage.setItem(key, getCount() + 1);
+    }
+
+    function updateBtnLabel() {
+      const remaining = DAILY_LIMIT - getCount();
+      if (remaining <= 0) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '本日の上限に達しました（明日またどうぞ）';
+      } else {
+        submitBtn.textContent = `アドバイスをもらう（残り${remaining}回）`;
+      }
+    }
+
+    updateBtnLabel();
+
+    submitBtn.addEventListener('click', async () => {
+      if (getCount() >= DAILY_LIMIT) {
+        showError('本日の利用上限に達しました。明日またお試しください。');
+        return;
+      }
+
+      const worry = worryInput.value.trim();
+
+      hideError();
+      resultBox.style.display = 'none';
+
+      if (!worry) { showError('悩みを入力してください'); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '考え中...';
+
+      try {
+        const res = await fetch(
+          `https://kuso-adviser.leyesophy.workers.dev/`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userInput: worry }),
+          }
+        );
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error?.message || 'APIエラーが発生しました');
+        }
+
+        const data = await res.json();
+        const text = data.advice;
+        if (!text) throw new Error('応答が取得できませんでした');
+
+        incrementCount();
+        updateBtnLabel();
+        adviceText.textContent = text.trim();
+        resultBox.style.display = 'block';
+
+        const shareText = `悩み：${worry}\n\nクソアドバイス：${text.trim()}\n\n#クソアドバイザーAI`;
+        const shareUrl = `https://leyesophy.github.io/kuso-adviser/`;
+        shareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+
+      } catch (e) {
+        showError(e.message);
+      } finally {
+        submitBtn.disabled = false;
+        updateBtnLabel();
+      }
+    });
+  </script>
 </body>
 </html>
